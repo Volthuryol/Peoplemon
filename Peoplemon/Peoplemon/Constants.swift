@@ -14,66 +14,69 @@ struct Constants {
     static let monthDayYear = "MM/dd/yyyy"
 
     // Step 7: Add keychain strings
-    public static let keychainIdentifier = "EFABKeychain"
+    public static let keychainIdentifier = "ProjectPeoplemonKeychain"
     public static let authTokenExpireDate = "authTokenExpireDate"
     public static let authToken = "authToken"
+    static let apiKey = "iOSandroid301november2016"
+    static let radius = 100.0
 
-    // Step 19: Add Notification constant
-    static let newExpensesFound = "NewExpensesFound"
 
-    // Step 3: Create Test Model Constants
-    // MARK: Test Model
-    struct Test {
-        static let userId = "userId"
-        static let id = "id"
-        static let title = "title"
-        static let body = "body"
-    }
 
-    // Step 4: JSON Constants
+    // JSON Constants
     struct JSON {
         static let unknownError = "An Unknown Error Has Occurred"
         static let processingError = "There was an error processing the response"
     }
 
-    // Step 9: BudgetUser Constants
-    struct BudgetUser {
+
+    // Step 10: User Constants
+    struct People {
+
         static let id = "id"
-        static let email = "email"
+        static let userId = "userId"
         static let username = "username"
+        static let latitude = "latitude"
+        static let longtitude = "longtitude"
+
+        static let created = "2016-11-03T20:44:12.608Z"
+        static let conversationId = "conversationId"
+        static let recipientId = "recipientId"
+        static let reipientName = "recipientName"
+        static let lastMessage = "lastMessage"
+        static let message = "message"
+        static let messageCount = "messageCount"
+        static let senderId = "senderId"
+        static let senderName = "senderName"
+        static let recipiantAvatar = "recipiantAvatar"
+        static let senderAvatar = "senderAvatar"
+
+        static let avatarBase64 = "avatarBase64"
+        static let oldPassword = "oldPassword"
+        static let newPassword = "newPassword"
+        static let confirmPassword = "confirmPassword"
+        static let hasRegistered = "hasRegistered"
+        static let loginProvider = "loginProvider"
+        static let avatarBase63 = "avatarBase64"
+        static let lastCheckInLongitude = "0"
+        static let lastCheckInLatitude = "0"
+        static let lastCheckInDateTime = "0"
+
+        static let userID = "userId"
+        static let email = "email"
+        static let fullname = "fullname"
         static let password = "password"
-        static let token = "token"
-        static let expirationDate = "expiration"
-    }
+        static let changePassword = "changepassword"
+        static let setPassword = "setPassword"
 
-    // Step 10: Category Constants
-    struct Category {
-        static let id = "id"
-        static let name = "name"
-        static let categoryInfo = "category_info"
-        static let startDate = "start_date"
-        static let endDate = "end_date"
-        static let user = "user"
-        static let amount = "amount"
+        static let longitude = "0"
 
-        static let month = "month"
-        static let day = "day"
-        static let year = "year"
-    }
+        static let apiKey = "iOSandroid301november2016"
+        static let token = "34nkCKgV1ewLfzyFQKvtI_CGVjfdjrYe2bBZWwCl7kH9SgV84-Vh3UAhBJXJNXBFxaFE5pvk__xFI41MDrY1BnATe-4ih4_XDAcSEJLXy3J-8ZGhgE2fHETNwYauGU1sdg5BchhxIoREPzQU8f7fPkAFA-mj1VoRXW8vcK0a73K3ajspmX7NuiQgzXQ_ozVYc9M8uckytVU4mnLQX0_LjuAlc9hPj4MNsZ5SdZlDytZ3nGIsLt9xPWXuVZR3_g50KI5aJVwXhgehD4NaitQOK2cSfR1y3g6NOOko-nwmVHAWBfX70p67xF6GRfn-V5UEWXAR3J5-fd5P_y5ab6SxvoNlXHhinijRZJA-pj9_5MuNRVeXbnm_XUvx_3uyGB4wVcRrcmxr117xp1Gk5erTo603S9_FVc8SxE9vTjGPMXYgbGqI_g9Gqs0bZqy4KBmdJE2OCZx73veYfXv1fw0qrTTfQLn7fbM3RJwbgcCIGEA"
+        static let expiration = "expiration"
+        static let grantType = "grantType"
 
-    // Step 11: Expense Constants
-    struct Expense {
-        static let id = "id"
-        static let amount = "amount"
-        static let category = "category"
         static let date = "date"
-        static let note = "note"
-        static let categoryId = "categoryId"
-        static let categoryName = "categoryName"
 
-        // Step 19: Add month/year
-        static let month = "month"
-        static let year = "year"
     }
 }
 
@@ -83,14 +86,4 @@ extension UIColor {
     public class func rgba(red: NSInteger, green: NSInteger, blue: NSInteger, alpha: Float = 1.0) -> UIColor {
         return UIColor(red: CGFloat(red)/255.0, green: CGFloat(green)/255.0, blue: CGFloat(blue)/255.0, alpha: CGFloat(alpha))
     }
-}
-
-struct ColorPalette {
-    static let PositiveColor = UIColor.rgba(red: 15, green: 181, blue: 46)
-    static let NegativeColor = UIColor.rgba(red: 219, green: 31, blue: 31)
-    static let BlueColor = UIColor.rgba(red: 12, green: 35, blue: 64)
-    static let GoldColor = UIColor.rgba(red: 201, green: 151, blue: 0)
-    static let calendarCellColor = UIColor.rgba(red: 0, green: 0, blue: 0, alpha: 0.1)
-    static let calendarTodayColor = UIColor.rgba(red: 12, green: 35, blue: 64, alpha: 0.3)
-    static let calendarBorderColor = UIColor.rgba(red: 12, green: 35, blue: 64, alpha: 0.8)
 }

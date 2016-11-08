@@ -23,7 +23,7 @@ class WebServices: NSObject {
     private override init() { }
 
     //baseURL private and public vars
-    fileprivate var _baseURL = ""
+    fileprivate var _baseURL = "https://efa-peoplemon-api.azurewebsites.net:443/swagger/docs/v1"
     var baseURL: String {
         get {
             return _baseURL

@@ -20,13 +20,38 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="tWo-5g-zfJ">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                            </mapView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="tWo-5g-zfJ" secondAttribute="bottom" id="Aze-ew-OUf"/>
+                            <constraint firstItem="tWo-5g-zfJ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="Yiq-fe-9jb"/>
+                            <constraint firstItem="tWo-5g-zfJ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="fmK-y8-oud"/>
+                            <constraint firstAttribute="trailing" secondItem="tWo-5g-zfJ" secondAttribute="trailing" id="rFz-R8-5Cl"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="iNq-bd-ogJ"/>
+                    <navigationItem key="navigationItem" id="iNq-bd-ogJ">
+                        <barButtonItem key="leftBarButtonItem" image="logout" id="5j2-rc-HBG"/>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="zan-XA-ttL" kind="presentation" identifier="PresentLogin" id="8LR-XB-5r3"/>
+                        <segue destination="zan-XA-ttL" kind="presentation" identifier="PresentLoginNoAnimation" animates="NO" id="gHL-Ll-0f2"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1143" y="777"/>
+            <point key="canvasLocation" x="1141.5999999999999" y="776.76161919040487"/>
+        </scene>
+        <!--Login-->
+        <scene sceneID="Xu5-5B-RHc">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Login" id="zan-XA-ttL" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oq0-em-MCj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1142" y="1327"/>
         </scene>
         <!--Root View Controller-->
         <scene sceneID="9Q0-xt-Am7">
@@ -41,7 +66,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zGo-Vm-2Dh" id="7AZ-lf-CMu">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -110,4 +135,10 @@
             <point key="canvasLocation" x="61.600000000000001" y="776.76161919040487"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="logout" width="25" height="25"/>
+    </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="8LR-XB-5r3"/>
+    </inferredMetricsTieBreakers>
 </document>
