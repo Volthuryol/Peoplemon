@@ -6,13 +6,14 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Map View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="Map" id="BYZ-38-t0r" customClass="ViewController" customModule="Peoplemon" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Map" id="BYZ-38-t0r" customClass="MapViewController" customModule="Peoplemon" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -34,9 +35,26 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="iNq-bd-ogJ">
-                        <barButtonItem key="leftBarButtonItem" image="logout" id="5j2-rc-HBG"/>
+                        <barButtonItem key="leftBarButtonItem" image="logout" id="5j2-rc-HBG">
+                            <connections>
+                                <action selector="logoutTapped:" destination="BYZ-38-t0r" id="Lo5-np-Zlh"/>
+                            </connections>
+                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Profile" id="pwX-y6-LHv">
+                                <connections>
+                                    <segue destination="S6j-c4-Imy" kind="show" id="fDc-K6-hlJ"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Check In" id="sYp-vR-dzn">
+                                <connections>
+                                    <action selector="checkIn:" destination="BYZ-38-t0r" id="wC3-6c-wcl"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="mapView" destination="tWo-5g-zfJ" id="jSF-qR-PmL"/>
                         <segue destination="zan-XA-ttL" kind="presentation" identifier="PresentLogin" id="8LR-XB-5r3"/>
                         <segue destination="zan-XA-ttL" kind="presentation" identifier="PresentLoginNoAnimation" animates="NO" id="gHL-Ll-0f2"/>
                     </connections>
@@ -109,6 +127,12 @@
                     <view key="view" contentMode="scaleToFill" id="P8B-pl-2Xy">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oHI-TV-AVO">
+                                <rect key="frame" x="67" y="72" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </viewController>

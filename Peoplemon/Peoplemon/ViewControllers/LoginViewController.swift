@@ -46,9 +46,7 @@ class LoginViewController: UIViewController {
         }
 
         MBProgressHUD.showAdded(to: view, animated: true)
-
-        let user = User(email: email, password: password, grantType: "password")
-
+        let user = User(userName: email, password: password)
         UserStore.shared.login(user) { (success, error) in
             MBProgressHUD.hide(for: self.view, animated: true)
 

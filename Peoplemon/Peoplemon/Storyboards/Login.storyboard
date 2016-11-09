@@ -80,10 +80,10 @@
             </objects>
             <point key="canvasLocation" x="600.79999999999995" y="147.97601199400302"/>
         </scene>
-        <!--View Controller-->
+        <!--Register View Controller-->
         <scene sceneID="y2U-xG-339">
             <objects>
-                <viewController id="Zx6-ZM-fTt" sceneMemberID="viewController">
+                <viewController id="Zx6-ZM-fTt" customClass="RegisterViewController" customModule="Peoplemon" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="t3P-Cp-AEB"/>
                         <viewControllerLayoutGuide type="bottom" id="EZD-5t-lFQ"/>
@@ -145,6 +145,9 @@
                                 <rect key="frame" x="16" y="433" width="343" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Register"/>
+                                <connections>
+                                    <action selector="Register:" destination="Zx6-ZM-fTt" eventType="touchUpInside" id="vS4-86-nLP"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Email:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zvb-Gs-taw">
                                 <rect key="frame" x="16" y="170" width="97" height="21"/>
@@ -156,6 +159,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="ConfirmPassword" destination="7i0-dC-XFi" id="J09-LD-gVt"/>
+                        <outlet property="EmailText" destination="KKy-9k-NVc" id="JF3-Ol-AGi"/>
+                        <outlet property="PasswordText" destination="4vB-Py-Mi3" id="b4g-yU-Hha"/>
+                        <outlet property="UserNameText" destination="TrI-Hs-eXX" id="3Kh-y4-tlb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WUr-qG-COf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

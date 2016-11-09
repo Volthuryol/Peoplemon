@@ -95,13 +95,13 @@ class WebServices: NSObject {
     func userAuthTokenExpired() -> Bool {
         if self.authTokenExpireDate != nil {
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+            dateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss Z"
 
             let dateString = self.authTokenExpireDate!
             if let expireDate = dateFormatter.date(from: dateString) {
-                let hourFromNow = Date().addingTimeInterval(3600)
+                //let hourFromNow = Date().addingTimeInterval(3600)
 
-                if expireDate.compare(hourFromNow) == ComparisonResult.orderedAscending {
+                if expireDate.compare(Date()) == ComparisonResult.orderedAscending {
                     return true
                 } else {
                     return false

@@ -11,7 +11,9 @@ import Alamofire
 import Freddy
 
 class User:NetworkModel {
-    var id : String?
+
+    var id: String?
+    var username: String?
     var email : String?
     var hasRegistered: Bool?
     var loginProvider: String?
@@ -20,38 +22,28 @@ class User:NetworkModel {
     var lastCheckInLongitude: Double?
     var lastCheckInLatitude: Double?
     var lastCheckInDateTime: String?
-
+    var authorization: String?
     var oldPassword: String?
     var newPassword: String?
     var confirmPassword: String?
-
+    var apiKey: String?
     var password: String?
-    var changePassword: String?
-    var setPassword: String?
-
-    var apiKey : String?
-    var token : String?
-    var expiration: String?
-
-    var username: String?
-    var Grant_Type: String?
-
-
+    var token: String?
+    var expiration : String?
+    var grantType: String? = "password"
 
 
     // Request Type
     enum RequestType {
         case login
-        case register
+        case userInfo
         case changePassword
         case setPassword
+        case register
         case getUserInfo
-        case postUserInfo
 
     }
-    var requestType = RequestType.login
-    //handles the type of request we re making
-    // will determin our API endpoint eventually
+    var requestType = RequestType.register
 
 
     // empty constructor
@@ -60,48 +52,44 @@ class User:NetworkModel {
     // create an object from JSON
     required init(json: JSON) throws {
         token = try? json.getString(at: Constants.People.token)
-        expiration = try? json.getString(at: Constants.People.expiration)
-        id = try? json.getString(at: Constants.People.userID)
+        expiration = try? json.getString(at: Constants.People.expirationDate)
+        id = try? json.getString(at: Constants.People.id)
         email = try? json.getString(at: Constants.People.email)
         hasRegistered = try? json.getBool(at: Constants.People.hasRegistered)
-        loginProvider  = try? json.getString(at: Constants.People.loginProvider)
+        loginProvider = try? json.getString(at: Constants.People.loginProvider)
         fullName = try? json.getString(at: Constants.People.fullname)
         avatarBase64 = try? json.getString(at: Constants.People.avatarBase64)
-        lastCheckInDateTime = try? json.getString(at: Constants.People.lastCheckInDateTime)
-        lastCheckInLatitude = try? json.getDouble(at: Constants.People.lastCheckInLatitude)
         lastCheckInLongitude = try? json.getDouble(at: Constants.People.lastCheckInLongitude)
+        lastCheckInLatitude = try? json.getDouble(at: Constants.People.lastCheckInLatitude)
+        lastCheckInDateTime = try? json.getString(at: Constants.People.lastCheckInDateTime)
+        authorization = try? json.getString(at: Constants.People.authorization)
+        oldPassword = try? json.getString(at: Constants.People.oldPassword)
+        newPassword = try? json.getString(at: Constants.People.newPassword)
+        confirmPassword = try? json.getString(at: Constants.People.confirmPassword)
+        apiKey = try? json.getString(at: Constants.People.apiKey)
+
+        grantType = try? json.getString(at: Constants.People.grantType)
+        username = try? json.getString(at: Constants.People.email)
+        password = try? json.getString(at: Constants.People.token)
 
     }
-    init(fullName: String, email: String, hasRegistered: String, loginProvider: String, avatarBase64: String, lastCheckInLongtitude: Double, lastCheckInLatitude: Double, lastCheckInDateTime: String) {
-        self.fullName = fullName
-        self.email = email
-        self.loginProvider = loginProvider
-        self.avatarBase64 = avatarBase64
-        self.lastCheckInLongitude = lastCheckInLongtitude
-        self.lastCheckInLatitude = lastCheckInLatitude
-        self.lastCheckInDateTime = lastCheckInDateTime
-        requestType = .postUserInfo
-    }
-    init(email: String, password: String, grantType: String) {
-        self.email = email
+    //parameters email and password
+    init( userName: String, password: String) {
+       // self.grantType = grantType
+        self.username = userName
         self.password = password
-        self.Grant_Type = grantType
+
         requestType = .login
     }
-
-    init(email: String, fullName: String, avatarBase64: String, password: String, apiKey: String) {
+    init(fullName: String, avatarBase64: String) {
         self.fullName = fullName
         self.avatarBase64 = avatarBase64
-        self.password = password
-        self.email = email
-        self.apiKey = apiKey
-        requestType = .register
+        requestType = .userInfo
     }
-    init(setPassword: String, oldPassword: String, confirmPassword: String, changePassword: String) {
-        self.setPassword = setPassword
+    init(oldPassword: String, newPassword: String, confirmPassword: String) {
         self.oldPassword = oldPassword
+        self.newPassword = newPassword
         self.confirmPassword = confirmPassword
-        self.changePassword = changePassword
         requestType = .changePassword
     }
     init(newPassword: String) {
@@ -109,104 +97,85 @@ class User:NetworkModel {
         requestType = .setPassword
     }
 
-    init(fullName: String, avatarBase64: String) {
-
+    init(fullName: String, password: String, email: String, avatarBase64: String, apiKey: String) {
+        self.email = email
+        self.password = password
         self.fullName = fullName
         self.avatarBase64 = avatarBase64
+        self.apiKey = Constants.apiKey
+        requestType = .register
+    }
+    init(userName: String, email: String, hasRegistered: Bool, loginProvider: String, fullName: String, avatarBase64: String, lastCheckInLongitude: Double, lastCheckInLatitude: Double, lastCheckInDateTime: String) {
+        self.username = userName
+        self.email = email
+        self.hasRegistered = hasRegistered
+        self.loginProvider = loginProvider
+        self.fullName = fullName
+        self.avatarBase64 = avatarBase64
+        self.lastCheckInLongitude = lastCheckInLongitude
+        self.lastCheckInLatitude = lastCheckInLatitude
+        self.lastCheckInDateTime = lastCheckInDateTime
         requestType = .getUserInfo
     }
 
-    //Determins the HTTP  method we will use in our calls Can use conditionals to determine this based on the endpoint we are calling or what we decide we would lke to do
 
+
+    //init(id: String) {
+    // self.userName = id
+    //}
 
     // Always return HTTP.GET
+    //determines the HTTP method we will use in our calls. Can use conditionals to determine this based on the endpoint we are calling or what we decide we would like to do
     func method() -> Alamofire.HTTPMethod {
-        switch requestType {
+        switch requestType{
         case .getUserInfo:
             return .get
-        case.login:
-            return .post
-        case.changePassword:
-            return .post
-        case.register:
-            return .post
-        case .setPassword:
-            return .post
         default:
             return .post
         }
     }
-
-    //Determins the path we will append to the Api base url
-    //we switch this endpoint based on what type of request we would like to make
-
+    //determines the path we will append to the API base URL //we switch this endpoint based on what type of request we would like to make
     // A sample path to a single post
     func path() -> String {
         switch requestType {
+        case .userInfo:
+            return "/api/Account/UserInfo"
+        case .changePassword:
+            return "/api/Account/ChangePassword"
+        case .setPassword:
+            return "/api/Account/SetPassword"
         case .login:
             return "/token"
         case .register:
             return "/api/Account/Register"
-        case .setPassword:
-            return "/api/Account/SetPassword"
-        case .changePassword:
-            return "/api/Account/ChangePassword"
         case .getUserInfo:
-            return "/api/Account/UserId"
-        case .postUserInfo:
-            return "/api/Account/UserId"
+            return "/api/Account/UserInfo"
+
         }
     }
 
-
-    //
-    // Demo object isn't being posted to a server, so just return nil
+    // Demo object isn't being posted to a server, so just return nil   //switch//register parameters
     func toDictionary() -> [String: AnyObject]? {
         var params: [String: AnyObject] = [:]
         switch requestType {
-
-        case .getUserInfo:
-            params[Constants.People.id] = id as AnyObject?
-            params[Constants.People.email] = email as AnyObject?
-            params[Constants.People.hasRegistered] = hasRegistered as AnyObject?
-            params[Constants.People.loginProvider] = loginProvider as AnyObject?
-            params[Constants.People.lastCheckInDateTime] = lastCheckInDateTime as AnyObject?
-            params[Constants.People.lastCheckInLongitude] = lastCheckInLongitude as AnyObject?
-            params[Constants.People.lastCheckInLatitude] = lastCheckInLatitude as AnyObject?
-
-        case .postUserInfo:
-            params[Constants.People.fullname] = fullName as AnyObject?
-            params[Constants.People.avatarBase64] = avatarBase64 as AnyObject?
-
-
-        case .login:
-            params[Constants.People.email] = changePassword as AnyObject?
-            params[Constants.People.password] = username as AnyObject?
-            params[Constants.People.grantType] = Grant_Type as AnyObject?
-
-        case .changePassword:
-            params[Constants.People.oldPassword] = oldPassword as AnyObject?
-            params[Constants.People.newPassword] = newPassword as AnyObject?
-            params[Constants.People.confirmPassword] = confirmPassword as AnyObject?
-
-        case .setPassword:
-            params[Constants.People.oldPassword] = oldPassword as AnyObject?
-
         case .register:
-            params[Constants.People.email] = email as AnyObject?
             params[Constants.People.fullname] = fullName as AnyObject?
+            params[Constants.People.email] = email as AnyObject?
+            params[Constants.People.password] = password as AnyObject?
             params[Constants.People.avatarBase64] = avatarBase64 as AnyObject?
             params[Constants.People.apiKey] = apiKey as AnyObject?
+
+        case .login:///login parameters with granttype username and password make username = email
+            params[Constants.People.grantType] = grantType as AnyObject?
+            params[Constants.People.username] = username as AnyObject?
             params[Constants.People.password] = password as AnyObject?
-            
-            
+            print(params)
+
         default:
             break
         }
-        
+        print(params)
         return params
     }
-    
-    
     
 }

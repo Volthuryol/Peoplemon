@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7C1F577E1DD36DDF00410248 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1F577D1DD36DDF00410248 /* MapViewController.swift */; };
+		7C1F57861DD3796400410248 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C1F57851DD3796400410248 /* MapKit.framework */; };
+		7C1F57881DD38BB300410248 /* MapPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1F57871DD38BB300410248 /* MapPin.swift */; };
 		7C27F58B1DD0CBD5008D5781 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C27F58A1DD0CBD5008D5781 /* AppDelegate.swift */; };
 		7C27F58D1DD0CBD5008D5781 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C27F58C1DD0CBD5008D5781 /* ViewController.swift */; };
 		7C27F5901DD0CBD5008D5781 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C27F58E1DD0CBD5008D5781 /* Main.storyboard */; };
@@ -29,6 +32,11 @@
 /* Begin PBXFileReference section */
 		223396FEFE14114042D8A7F9 /* Pods-Peoplemon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Peoplemon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Peoplemon/Pods-Peoplemon.debug.xcconfig"; sourceTree = "<group>"; };
 		459C2D1B180E264296DA5593 /* Pods_Peoplemon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Peoplemon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C1F577D1DD36DDF00410248 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = ViewControllers/MapViewController.swift; sourceTree = "<group>"; };
+		7C1F577F1DD3782C00410248 /* Peoplemon-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Peoplemon-Bridging-Header.h"; sourceTree = "<group>"; };
+		7C1F57841DD378DC00410248 /* Peoplemon.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Peoplemon.entitlements; path = ../../../../../Downloads/Peoplemon.entitlements; sourceTree = "<group>"; };
+		7C1F57851DD3796400410248 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		7C1F57871DD38BB300410248 /* MapPin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapPin.swift; path = ViewControllers/MapPin.swift; sourceTree = "<group>"; };
 		7C27F5871DD0CBD5008D5781 /* Peoplemon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Peoplemon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C27F58A1DD0CBD5008D5781 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7C27F58C1DD0CBD5008D5781 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -55,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C1F57861DD3796400410248 /* MapKit.framework in Frameworks */,
 				893DB84AB93DF089C738ED96 /* Pods_Peoplemon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -93,6 +102,8 @@
 				7C27F5931DD0CBD5008D5781 /* LaunchScreen.storyboard */,
 				7C27F5911DD0CBD5008D5781 /* Assets.xcassets */,
 				7C27F5961DD0CBD5008D5781 /* Info.plist */,
+				7C1F57841DD378DC00410248 /* Peoplemon.entitlements */,
+				7C1F577F1DD3782C00410248 /* Peoplemon-Bridging-Header.h */,
 			);
 			path = Peoplemon;
 			sourceTree = "<group>";
@@ -140,6 +151,8 @@
 			children = (
 				7C27F5B31DD10126008D5781 /* LoginViewController.swift */,
 				7C27F5B51DD10135008D5781 /* RegisterViewController.swift */,
+				7C1F577D1DD36DDF00410248 /* MapViewController.swift */,
+				7C1F57871DD38BB300410248 /* MapPin.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -156,6 +169,7 @@
 		AE9462A562C46764187AD599 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7C1F57851DD3796400410248 /* MapKit.framework */,
 				459C2D1B180E264296DA5593 /* Pods_Peoplemon.framework */,
 			);
 			name = Frameworks;
@@ -197,7 +211,16 @@
 					7C27F5861DD0CBD5008D5781 = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = D58Y8QB3MQ;
+						LastSwiftMigration = 0810;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -292,8 +315,10 @@
 				7C27F5B61DD10135008D5781 /* RegisterViewController.swift in Sources */,
 				7C27F5A81DD0D705008D5781 /* Utils.swift in Sources */,
 				7C27F5A31DD0D698008D5781 /* User.swift in Sources */,
+				7C1F577E1DD36DDF00410248 /* MapViewController.swift in Sources */,
 				7C27F5B11DD0E2B7008D5781 /* People.swift in Sources */,
 				7C27F5AD1DD0D847008D5781 /* WebModel.swift in Sources */,
+				7C1F57881DD38BB300410248 /* MapPin.swift in Sources */,
 				7C27F59F1DD0D4CA008D5781 /* WebServices.swift in Sources */,
 				7C27F5AA1DD0D726008D5781 /* UserStore.swift in Sources */,
 				7C27F5A61DD0D6EA008D5781 /* Constants.swift in Sources */,
@@ -421,11 +446,15 @@
 			baseConfigurationReference = 223396FEFE14114042D8A7F9 /* Pods-Peoplemon.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ../../../../Downloads/Peoplemon.entitlements;
 				DEVELOPMENT_TEAM = D58Y8QB3MQ;
 				INFOPLIST_FILE = Peoplemon/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Interapt.Peoplemon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Peoplemon/Peoplemon-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -435,11 +464,14 @@
 			baseConfigurationReference = E21C5BCA0955867016A5515B /* Pods-Peoplemon.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ../../../../Downloads/Peoplemon.entitlements;
 				DEVELOPMENT_TEAM = D58Y8QB3MQ;
 				INFOPLIST_FILE = Peoplemon/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Interapt.Peoplemon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Peoplemon/Peoplemon-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

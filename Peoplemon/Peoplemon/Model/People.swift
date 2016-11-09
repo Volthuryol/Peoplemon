@@ -11,102 +11,105 @@ import Alamofire
 import Freddy
 
 class People: NetworkModel {
-    var login: String?
-    var id: String?
     var userId: String?
-    var userName : String?
-    var password: String?
-    var oldPassword: String?
-    var email: String?
-    var avatarBase64 : String?
+    var userName: String?
+    var avatarBase64: String?
     var latitude: Double?
-    var longtitude: Double?
-    var created: Date?
-    var conversationId: Int?
+    var longitude: Double?
+    var created: String?
+    var radius: Double?
+    var caughtUserId: Int?
+    var conversationId: String?
     var recipientId: String?
     var recipientName: String?
-    var lastMessage: Date?
+    var lastMessage: String?
     var messageCount: Int?
     var senderId: String?
     var senderName: String?
-    var recipientAvatar: String?
-    var senderAvatar: String?
-    var radius: String?
-    var grant_type: String?
-    var expiration: Int?
-    var caughtUserId: Int?
-    var radiusInMeters: Double?
     var recipientAvatarBase64: String?
     var senderAvatarBase64: String?
-    var newPassword: String?
-    var confirmPassword: String?
-    var hasRegistered: Bool?
-    var loginProvider: String?
-    var lastCheckInLatitude: Int?
-    var lastCheckInLongitude: Int?
-    var lastCheckInDateTime: String?
-    var date: Date?
+    var grant_type: String?
+    var expiration: Int?
 
-    // Request Type
+
+
+
     enum RequestType {
         case nearby
-        case checkin
+        case checkIn
         case catchPerson
         case caught
         case conversations
-        case conversation
         case register
+        case login
 
     }
-    var requestType = RequestType.nearby
+    var requestType: RequestType = .nearby
 
-    // empty constructor
     required init() {}
-
-
 
     // create an object from JSON
     required init(json: JSON) throws {
-        grant_type = try? json.getString(at: Constants.People.token)
+        userId = try? json.getString(at: Constants.People.userId)
+        userName = try? json.getString(at: Constants.People.username)
+        avatarBase64 = try? json.getString(at: Constants.People.avatarBase64)
+        latitude = try? json.getDouble(at: Constants.People.latitude)
+        longitude = try? json.getDouble(at: Constants.People.longitude)
+        created = try? json.getString(at: Constants.People.created)
+        radius = try? json.getDouble(at: Constants.People.radius)
+        caughtUserId = try? json.getInt(at: Constants.People.caughtUserId)
+        conversationId = try? json.getString(at: Constants.People.conversationId)
+        recipientId = try? json.getString(at: Constants.People.recipientId)
+        recipientName = try? json.getString(at: Constants.People.recipientName)
+        lastMessage = try? json.getString(at: Constants.People.lastMessage)
+
+        messageCount = try? json.getInt(at: Constants.People.messageCount)
+        senderId = try? json.getString(at: Constants.People.senderId)
+        senderName = try? json.getString(at: Constants.People.senderName)
+        recipientAvatarBase64 = try? json.getString(at: Constants.People.recipientAvatarBase64)
+        senderAvatarBase64 = try? json.getString(at: Constants.People.senderAvatarBase64)
+        grant_type = try? json.getString(at: Constants.People.grantType)
+        expiration = try? json.getInt(at: Constants.People.expirationDate)
+
     }
 
-    init(avatarBase64: String, userName: String, userId: String, longtitude: Double, latitude: Double, created: Date ) {
-        self.avatarBase64 = avatarBase64
+    init(userId: String, userName: String, avatarBase64: String, longitude: Double, latitude: Double, created: String) {
         self.userId = userId
+        self.userName = userName
+        self.avatarBase64 = avatarBase64
+        self.longitude = longitude
         self.latitude = latitude
-        self.longtitude = longtitude
         self.created = created
         requestType = .nearby
     }
 
-    init(caughtUserId: Int, radiusInMeters: Double) {
-        self.caughtUserId = caughtUserId
-        self.radiusInMeters = radiusInMeters
-        requestType = .catchPerson
+    init(longitude: Double, latitude: Double) {
+        self.longitude = longitude
+        self.latitude = latitude
+        requestType = .checkIn
     }
 
-    init(userId: String, avatarBase64: String, created: Date,userName: String) {
+    init(caughtUserId: Int, radius: Double) {
+        self.caughtUserId = caughtUserId
+        self.radius = radius
+        requestType = .catchPerson
+    }
+    init(userId: String, userName: String, created: String, avatarBase64: String) {
         self.userId = userId
         self.userName = userName
-        self.avatarBase64 = avatarBase64
         self.created = created
+        self.avatarBase64 = avatarBase64
         requestType = .caught
     }
 
-    init(latitude: Double, longitude: Double) {
-        self.longtitude = 0
-        self.latitude = 0
-        requestType = .checkin
-    }
-
-    init(conversationId: Int, recipientId: String, recipientName: String, lastMessage: Date, created: Date, messageCount: Int, avatarBase64: String, senderId: String, senderName: String, recipientAvatarBase64: String, senderAvatarBase64: String) {
-
-        self.avatarBase64 = avatarBase64
-        self.conversationId = conversationId
+    init(conversationId: Int, recipientId: String, recipientName: String, lastMessage: String, created: String, messageCount: Int, avatarBase64: String, senderId: String, senderName: String, recipientAvatarBase64: String, senderAvatarBase64: String) {
+        self.conversationId = "0"
         self.recipientId = recipientId
+        self.recipientName = recipientName
         self.lastMessage = lastMessage
         self.created = created
-        self.messageCount = 0
+        self.messageCount = messageCount
+        self.avatarBase64 = avatarBase64
         self.senderId = senderId
         self.senderName = senderName
         self.recipientAvatarBase64 = recipientAvatarBase64
@@ -115,80 +118,74 @@ class People: NetworkModel {
 
     }
 
-
     // Always return HTTP.GET
     func method() -> Alamofire.HTTPMethod {
         switch requestType {
         case .nearby:
             return .get
+        case .checkIn:
+            return .post
+        case .catchPerson:
+            return .post
         case .caught:
             return .get
         case .conversations:
             return .get
-        case .conversation:
-            return .get
-        case .checkin:
-            return .post
-        case .catchPerson:
-            return .post
         default:
-            return .post
+            return .get
         }
     }
-
     // A sample path to a single post
     func path() -> String {
         switch requestType {
         case .nearby:
             return "/v1/User/Nearby"
-        case .register:
-            return "/api/Account/Register"
-        case .caught:
-            return "/v1/User/Caught"
-        case .conversation:
-            return "/v1/User/Conversation"
-        case .conversations:
-            return "/v1/User/Conversations"
+        case .checkIn:
+            return "/v1/User/CheckIn"
         case .catchPerson:
             return "/v1/User/Catch"
-        default:
-            return ""
+        case .caught:
+            return "/v1/User/Caught"
+        case .conversations:
+            return "/v1/User/Conversations"
+            //case .conversation:
+        //return "/v1/User/Conversation"
+        case .login:
+            return "/token"
+        case .register:
+            return "/api/Account/Register"
+
         }
     }
-
-
-
     // Demo object isn't being posted to a server, so just return nil
     func toDictionary() -> [String: AnyObject]? {
-
-        var params: [String: AnyObject] = [:]
         switch requestType {
+        case .checkIn:
+            //let startDate = Utils.adjustedTime().toString(.iso8601(nil))
 
-        case .checkin:
-            params[Constants.People.id] = id as AnyObject?
-            params[Constants.People.email] = email as AnyObject?
-            params[Constants.People.oldPassword] = oldPassword as AnyObject?
-            params[Constants.People.newPassword] = newPassword as AnyObject?
-            params[Constants.People.confirmPassword] = confirmPassword as AnyObject?
-            params[Constants.People.hasRegistered] = hasRegistered as AnyObject?
-            params[Constants.People.loginProvider] = loginProvider as AnyObject?
-            params[Constants.People.avatarBase64] = avatarBase64 as AnyObject?
-            params[Constants.People.lastCheckInLatitude] = lastCheckInLatitude as AnyObject?
-            params[Constants.People.lastCheckInLongitude] = lastCheckInLongitude as AnyObject?
-            params[Constants.People.lastCheckInDateTime] = lastCheckInDateTime as AnyObject?
-            params[Constants.People.date] = date?.toString(.iso8601(nil)) as AnyObject?
+            var params: [String: AnyObject] = [:]
+            params[Constants.People.username] = userName as AnyObject?
+            params[Constants.People.latitude] = latitude as AnyObject?
+            params[Constants.People.longitude] = longitude as AnyObject?
 
+            return params
+        case .catchPerson:
+            //needs work
+            var params: [String: AnyObject] = [:]
+            params[Constants.People.username] = userName as AnyObject?
+            params[Constants.People.latitude] = latitude as AnyObject?
+            params[Constants.People.longitude] = longitude as AnyObject?
 
-
-
-
-        case .register:
-            params[Constants.People.email] = email as AnyObject?
+            return params
         default:
-            break
+            return nil
         }
-        
-        return params
     }
     
+    
+    
 }
+
+
+
+
