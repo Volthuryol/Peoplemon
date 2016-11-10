@@ -10,6 +10,15 @@ import UIKit
 
 class ProfileViewController: UIViewController {
 
+    /*
+     let pictureData = UIImagePNGRepresentation([Image Literal])
+     let pictureToString64 = pictureData?.base64EncodedString()
+
+     let encodedPic = pictureToString64
+     let imageData = NSData(base64Encoded: encodedPic!, options: NSData.Base64DecodingOptions.ignoreUnknownCharacters)
+     let image = UIImage(data: imageData as! Data)
+ */
+
     
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var imageView: UIImageView!

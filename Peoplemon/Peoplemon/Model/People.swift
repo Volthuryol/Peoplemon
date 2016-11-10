@@ -84,8 +84,8 @@ class People: NetworkModel {
         requestType = .checkIn
     }
 
-    init(caughtUserId: String, radius: Double) {
-        self.caughtUserId = caughtUserId
+    init(userId: String, radius: Double) {
+        self.userId = userId
         self.radius = radius
         requestType = .catchPerson
     }
@@ -160,9 +160,12 @@ class People: NetworkModel {
         case .catchPerson:
             //needs work
 
-            params[Constants.People.username] = userName as AnyObject?
-            params[Constants.People.latitude] = latitude as AnyObject?
-            params[Constants.People.longitude] = longitude as AnyObject?
+           //params[Constants.People.username] = userName as AnyObject?
+            //params[Constants.People.latitude] = latitude as AnyObject?
+            //params[Constants.People.longitude] = longitude as AnyObject?
+
+            params[Constants.People.caughtUserId] = userId as AnyObject?
+            params[Constants.People.radius] = radius as AnyObject?
 
         case .nearby:
             params[Constants.People.radius] = radius as AnyObject?
