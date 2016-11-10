@@ -18,7 +18,7 @@ class People: NetworkModel {
     var longitude: Double?
     var created: String?
     var radius: Double?
-    var caughtUserId: Int?
+    var caughtUserId: String?
     var conversationId: String?
     var recipientId: String?
     var recipientName: String?
@@ -57,7 +57,7 @@ class People: NetworkModel {
         longitude = try? json.getDouble(at: Constants.People.longitude)
         created = try? json.getString(at: Constants.People.created)
         radius = try? json.getDouble(at: Constants.People.radius)
-        caughtUserId = try? json.getInt(at: Constants.People.caughtUserId)
+        caughtUserId = try? json.getString(at: Constants.People.caughtUserId)
         conversationId = try? json.getString(at: Constants.People.conversationId)
         recipientId = try? json.getString(at: Constants.People.recipientId)
         recipientName = try? json.getString(at: Constants.People.recipientName)
@@ -73,14 +73,9 @@ class People: NetworkModel {
 
     }
 
-    init(userId: String, userName: String, avatarBase64: String, longitude: Double, latitude: Double, created: String) {
-        self.userId = userId
-        self.userName = userName
-        self.avatarBase64 = avatarBase64
-        self.longitude = longitude
-        self.latitude = latitude
-        self.created = created
-        requestType = .nearby
+    init(radius: Double) {
+        self.radius = radius
+        self.requestType = .nearby
     }
 
     init(longitude: Double, latitude: Double) {
@@ -89,7 +84,7 @@ class People: NetworkModel {
         requestType = .checkIn
     }
 
-    init(caughtUserId: Int, radius: Double) {
+    init(caughtUserId: String, radius: Double) {
         self.caughtUserId = caughtUserId
         self.radius = radius
         requestType = .catchPerson
@@ -121,18 +116,10 @@ class People: NetworkModel {
     // Always return HTTP.GET
     func method() -> Alamofire.HTTPMethod {
         switch requestType {
-        case .nearby:
-            return .get
-        case .checkIn:
-            return .post
-        case .catchPerson:
-            return .post
-        case .caught:
-            return .get
-        case .conversations:
+        case .nearby, .caught:
             return .get
         default:
-            return .get
+            return .post
         }
     }
     // A sample path to a single post
@@ -159,27 +146,32 @@ class People: NetworkModel {
     }
     // Demo object isn't being posted to a server, so just return nil
     func toDictionary() -> [String: AnyObject]? {
+        var params: [String: AnyObject] = [:]
         switch requestType {
         case .checkIn:
             //let startDate = Utils.adjustedTime().toString(.iso8601(nil))
 
-            var params: [String: AnyObject] = [:]
+
             params[Constants.People.username] = userName as AnyObject?
             params[Constants.People.latitude] = latitude as AnyObject?
             params[Constants.People.longitude] = longitude as AnyObject?
 
-            return params
+
         case .catchPerson:
             //needs work
-            var params: [String: AnyObject] = [:]
+
             params[Constants.People.username] = userName as AnyObject?
             params[Constants.People.latitude] = latitude as AnyObject?
             params[Constants.People.longitude] = longitude as AnyObject?
 
-            return params
+        case .nearby:
+            params[Constants.People.radius] = radius as AnyObject?
+
+
         default:
             return nil
         }
+        return params
     }
     
     

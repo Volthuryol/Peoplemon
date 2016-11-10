@@ -11,33 +11,34 @@ import MapKit
 import MBProgressHUD
 import CoreLocation
 
-class MapViewController: UIViewController, CLLocationManagerDelegate {
+class MapViewController: UIViewController{
 
     @IBOutlet weak var mapView: MKMapView!
 
 
     let locationManager = CLLocationManager()
-    var updateLocation = 0
+    var updateLocation = true
+    var latitudeDelta = 0.005
+    var longitudeDelta = 0.005
+    var annotations: [MapPin] = []
+    var overlay: MKOverlay?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         print("view loaded")
         // Do any additional setup after loading the view.
-        self.locationManager.delegate = self
+        locationManager.delegate = self
+        mapView.delegate = self
+        //UserStore.shared.delegate = self //For timer
+        locationManager.requestWhenInUseAuthorization() //pop up to request that the app can use user location
+        locationManager.distanceFilter = kCLDistanceFilterNone //give me every movement
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest //every time the distanceFilter gets a movement, get the best accuracy
+        mapView.showsUserLocation = true //show the blue dot on the map to show where you are
+        locationManager.startUpdatingLocation() //can turn on and turn off getting user location
+        nearbyPeople()
 
-        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse{
-            self.mapView.showsUserLocation = true
-            self.locationManager.startUpdatingLocation()
+        mapView.mapType = MKMapType.hybrid
 
-
-        }else{
-            self.locationManager.requestWhenInUseAuthorization()
-        }
-    }
-    func locationManager(_ manager:CLLocationManager, didUpdateLocations locations: [CLLocation]){
-
-        let myArea = MKCoordinateRegionMakeWithDistance(self.locationManager.location!.coordinate, 1000, 1000)
-        self.mapView.setRegion(myArea, animated: true)
 
     }
 
@@ -54,7 +55,26 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             //print("I got here")
         }
     }
+
+    func nearbyPeople() {
+        let nearby  = People(radius: 99.00)
+        WebServices.shared.getObjects(nearby) { (objects, errors) in
+            if let objects = objects {
+                let oldannotations = self.annotations
+                self.annotations = []
+                for user in objects {
+                    let pin = MapPin(people: user)
+                    self.annotations.append(pin)
+                }
+                self.mapView.addAnnotations(self.annotations)
+                self.mapView.removeAnnotations(oldannotations)
+            }
+
+        }
+    }
     //Mark - @IBActions
+
+
 
     @IBAction func logoutTapped(_ sender: UIBarButtonItem) {
         UserStore.shared.logout{
@@ -86,15 +106,66 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         }
 
     }
-
-    /*
-     // MARK: - Navigation
-
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
 }
+
+extension MapViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let location = locations.last!
+        let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpanMake(latitudeDelta, longitudeDelta))
+        mapView.setRegion(region, animated: true)
+        updateLocation = false
+        locationManager.stopUpdatingLocation()
+
+    }
+
+}
+
+extension MapViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation is MKUserLocation {
+            return nil
+        }
+
+        let reuseId = "pin"
+
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
+        if pinView == nil {
+            pinView?.isEnabled = true
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView!.canShowCallout = true
+            pinView!.animatesDrop = true
+            
+        } else {
+            pinView?.annotation = annotation
+        }
+        return pinView
+    }
+
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if let mapPin = view.annotation as? MapPin, let people = mapPin.people, let name = people.userName, let userId = people.userId {
+            let alert = UIAlertController(title: "Catch User", message: "Catch\(name)?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Catch", style: .default, handler: { (action) in
+                let catchPeople = People(caughtUserId: userId, radius: Constants.radius)
+                WebServices.shared.postObject(catchPeople, completion: { (object, error) in
+                    if let error = error{
+                        self.present(Utils.createAlert(message: error), animated: true, completion: nil)
+                    } else{
+                        self.present(Utils.createAlert("AWESOME!", message: "User Caught"), animated: true, completion: nil)
+                    }
+                })
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        self.overlay = overlay
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = UIColor.green
+        renderer.lineWidth = 5.0
+        renderer.lineCap = CGLineCap.round
+        return renderer
+    }
+}
+
