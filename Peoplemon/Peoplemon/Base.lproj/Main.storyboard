@@ -87,7 +87,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Save"/>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zZt-Ii-3vt">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="placeholder-hi" translatesAutoresizingMaskIntoConstraints="NO" id="zZt-Ii-3vt">
                                 <rect key="frame" x="67" y="62" width="240" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -202,6 +202,7 @@
     </scenes>
     <resources>
         <image name="logout" width="25" height="25"/>
+        <image name="placeholder-hi" width="600" height="568"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="ybT-Lw-XgH"/>
