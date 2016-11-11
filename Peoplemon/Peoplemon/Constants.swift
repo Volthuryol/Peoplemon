@@ -18,7 +18,7 @@ struct Constants {
     public static let authTokenExpireDate = "authTokenExpireDate"
     public static let authToken = "authToken"
     static let apiKey = "iOSandroid301november2016"
-    static let radius = 99.0
+    static let radius = 100.0
 
 
 
@@ -48,7 +48,7 @@ struct Constants {
         static let apiKey = "ApiKey"
         static let password = "password"
         static let grantType = "grant_type"
-        static let username = "username"
+        static let username = "UserName"
         static let token = "access_token"
         static let expirationDate = ".expires"
 

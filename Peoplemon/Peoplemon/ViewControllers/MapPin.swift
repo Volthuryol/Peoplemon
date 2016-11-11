@@ -13,18 +13,16 @@ class MapPin: NSObject, MKAnnotation {
 
 
     var coordinate: CLLocationCoordinate2D
+    var userName: String?
     var userId: String?
-    var avatarBase64: String?
     var title: String?
-    var subtitle: String?
     var people: People?
 
     init(people: People ) {
         self.people = people
         self.userId = people.userId
-        self.subtitle = people.userName
-        self.title = people.userName
-        self.avatarBase64 = people.avatarBase64
+        self.userName = people.userName
+
 
         if let lat = people.latitude, let long = people.longitude {
             self.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
@@ -34,4 +32,5 @@ class MapPin: NSObject, MKAnnotation {
             
         }
     }
+    
 }

@@ -38,6 +38,8 @@ class MapViewController: UIViewController{
         mapView.isZoomEnabled = true
         mapView.isScrollEnabled = true
         locationManager.startUpdatingLocation()
+
+        loadMap()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -51,10 +53,11 @@ class MapViewController: UIViewController{
                 }
             })
         }
+        mapView.mapType = MKMapType.hybrid
     }
     func loadMap() {
         if let coordinate = locationManager.location?.coordinate {
-            let checkIn = People(longitude: coordinate.longitude, latitude: coordinate.latitude)
+            let checkIn = People(coordinate: coordinate)
             WebServices.shared.postObject(checkIn, completion: { (object, error) in
 
             })
@@ -74,6 +77,7 @@ class MapViewController: UIViewController{
             }
         }
     }
+
     func startTimer() {
         timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(loadMap), userInfo: nil, repeats: true)
     }
@@ -92,30 +96,30 @@ class MapViewController: UIViewController{
         }
 
     }
-
-    @IBAction func checkIn(_ sender: UIBarButtonItem) {
-        if let location = locationManager.location{
-
-
-
-            //create user object with that location
-            let person = People(longitude: location.coordinate.longitude, latitude: location.coordinate.latitude)
-
-            //call webservices .post with the user object
-            WebServices.shared.postObject(person, completion: { (person, error) in
-                if let error = error {
-                    self.present(Utils.createAlert(message: error), animated: true, completion: nil)
-                }else{
-                    self.present(Utils.createAlert("Awesome!", message: "You are Checked In 😀"),  animated: true, completion: nil)
-
-                }
-
-            })
+    /*
+     @IBAction func checkIn(_ sender: UIBarButtonItem) {
+     if let location = locationManager.location{
 
 
-        }
 
-    }
+     //create user object with that location
+     let person = People(coordinate: coordinate)
+
+     //call webservices .post with the user object
+     WebServices.shared.postObject(person, completion: { (person, error) in
+     if let error = error {
+     self.present(Utils.createAlert(message: error), animated: true, completion: nil)
+     }else{
+     self.present(Utils.createAlert("Awesome!", message: "You are Checked In 😀"),  animated: true, completion: nil)
+
+     }
+
+     })
+
+
+     }
+
+     } */
 }
 
 extension MapViewController: CLLocationManagerDelegate {
@@ -124,8 +128,8 @@ extension MapViewController: CLLocationManagerDelegate {
         let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpanMake(latitudeDelta, longitudeDelta))
         mapView.setRegion(region, animated: true)
-        updateLocation = false
-        locationManager.stopUpdatingLocation()
+        updateLocation = true
+
     }
 }
 
@@ -140,10 +144,10 @@ extension MapViewController: MKMapViewDelegate {
         var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
         if pinView == nil {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
-            pinView!.canShowCallout = false
-            pinView!.animatesDrop = false
+            pinView?.canShowCallout = false
+            pinView?.animatesDrop = false
         } else {
-            pinView!.annotation = annotation
+            pinView?.annotation = annotation
         }
 
         return pinView
@@ -164,9 +168,9 @@ extension MapViewController: MKMapViewDelegate {
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             self.present(alert, animated: true, completion: nil)
+
         }
     }
-
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         self.overlay = overlay
         let renderer = MKPolylineRenderer(overlay: overlay)

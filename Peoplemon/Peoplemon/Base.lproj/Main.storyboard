@@ -35,27 +35,20 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="iNq-bd-ogJ">
-                        <leftBarButtonItems>
-                            <barButtonItem image="logout" id="5j2-rc-HBG">
-                                <connections>
-                                    <action selector="logoutTapped:" destination="BYZ-38-t0r" id="Lo5-np-Zlh"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="Caught" id="9uA-wg-JiW">
-                                <connections>
-                                    <segue destination="Ucn-eh-acG" kind="show" id="7JO-kq-6zr"/>
-                                </connections>
-                            </barButtonItem>
-                        </leftBarButtonItems>
+                        <barButtonItem key="leftBarButtonItem" image="logout" id="5j2-rc-HBG">
+                            <connections>
+                                <action selector="logoutTapped:" destination="BYZ-38-t0r" id="Lo5-np-Zlh"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem title="Profile" id="pwX-y6-LHv">
                                 <connections>
                                     <segue destination="MQi-8o-uM0" kind="show" id="EB6-jk-K2X"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Check In" id="sYp-vR-dzn">
+                            <barButtonItem title="Caught" id="9uA-wg-JiW">
                                 <connections>
-                                    <action selector="checkIn:" destination="BYZ-38-t0r" id="wC3-6c-wcl"/>
+                                    <segue destination="Ucn-eh-acG" kind="show" id="7JO-kq-6zr"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -141,7 +134,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zGo-Vm-2Dh" id="7AZ-lf-CMu">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>

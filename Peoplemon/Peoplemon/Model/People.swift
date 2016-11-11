@@ -9,6 +9,7 @@
 import Foundation
 import Alamofire
 import Freddy
+import MapKit
 
 class People: NetworkModel {
     var userId: String?
@@ -78,9 +79,9 @@ class People: NetworkModel {
         self.requestType = .nearby
     }
 
-    init(longitude: Double, latitude: Double) {
-        self.longitude = longitude
-        self.latitude = latitude
+    init(coordinate: CLLocationCoordinate2D) {
+        self.longitude = coordinate.longitude
+        self.latitude = coordinate.latitude
         requestType = .checkIn
     }
 
@@ -152,7 +153,6 @@ class People: NetworkModel {
             //let startDate = Utils.adjustedTime().toString(.iso8601(nil))
 
 
-            params[Constants.People.username] = userName as AnyObject?
             params[Constants.People.latitude] = latitude as AnyObject?
             params[Constants.People.longitude] = longitude as AnyObject?
 
