@@ -134,22 +134,30 @@ extension MapViewController: CLLocationManagerDelegate {
 }
 
 extension MapViewController: MKMapViewDelegate {
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?{
         if annotation is MKUserLocation {
             return nil
         }
-
         let reuseId = "pin"
 
-        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId)
         if pinView == nil {
-            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
-            pinView?.canShowCallout = false
-            pinView?.animatesDrop = false
-        } else {
-            pinView?.annotation = annotation
+            pinView = MKAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView!.canShowCallout = true
+            //look up User
+            if let mapPin = annotation as? MapPin{
+                if let image = Utils.stringToImage(str: mapPin.people?.avatarBase64) {
+                    let resizedImage = Utils.resizeImage(image: image, maxSize: 30)
+                    pinView?.image = resizedImage
+                    pinView?.contentMode = .scaleToFill
+                    pinView?.clipsToBounds = false
+                    pinView?.layer.borderWidth = 2
+                    pinView?.layer.borderColor = UIColor(red: 0, green: 0, blue: 1, alpha: 1).cgColor
+                } else {
+                    pinView?.image = nil
+                }
+            }
         }
-
         return pinView
     }
 

@@ -36,7 +36,7 @@ class User:NetworkModel {
     // Request Type
     enum RequestType {
         case login
-        case userInfo
+        case updateUserInfo
         case changePassword
         case setPassword
         case register
@@ -84,7 +84,7 @@ class User:NetworkModel {
     init(fullName: String, avatarBase64: String) {
         self.fullName = fullName
         self.avatarBase64 = avatarBase64
-        requestType = .userInfo
+        requestType = .updateUserInfo
     }
     init(oldPassword: String, newPassword: String, confirmPassword: String) {
         self.oldPassword = oldPassword
@@ -138,7 +138,7 @@ class User:NetworkModel {
     // A sample path to a single post
     func path() -> String {
         switch requestType {
-        case .userInfo:
+        case .updateUserInfo:
             return "/api/Account/UserInfo"
         case .changePassword:
             return "/api/Account/ChangePassword"
@@ -170,6 +170,10 @@ class User:NetworkModel {
             params[Constants.People.username] = username as AnyObject?
             params[Constants.People.password] = password as AnyObject?
             print(params)
+
+        case .updateUserInfo:
+            params[Constants.People.fullname] = fullName as AnyObject?
+            params[Constants.People.avatarBase64] = avatarBase64 as AnyObject?
 
         default:
             break

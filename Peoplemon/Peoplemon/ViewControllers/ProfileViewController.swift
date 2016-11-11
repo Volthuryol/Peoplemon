@@ -71,6 +71,7 @@ class UserProfileViewController: UIViewController {
     }
 
 
+
     //MARK: - IBACtions
 
     @IBAction func choosePhoto(_ sender: AnyObject) {
@@ -84,7 +85,6 @@ class UserProfileViewController: UIViewController {
 
     @IBAction func saveButton(_ sender: UIButton) {
     
-
         guard let fullName = fullNameText.text, fullName != "" else {
             //show error
             let alert = Utils.createAlert("ERROR", message: "Please provide a Full Name", dismissButtonTitle: "Close")
@@ -124,6 +124,7 @@ class UserProfileViewController: UIViewController {
     }
 
 }
+
 extension UserProfileViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate{
     //implemented for us--no code--just include it--gives us the right to make functions to pull up picture or take camera pic
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -152,6 +153,8 @@ extension UserProfileViewController: UINavigationControllerDelegate, UIImagePick
         }
     }
 }
+
+
 
 
 
