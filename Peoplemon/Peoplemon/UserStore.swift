@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol UserStoreDelegate: class {
     func userLoggedIn()
@@ -15,6 +16,8 @@ protocol UserStoreDelegate: class {
 class UserStore {
     static let shared = UserStore ()
     private init() {}
+
+    var selectedImage: UIImage?
 
     var user: User? {
         didSet{
@@ -25,9 +28,10 @@ class UserStore {
     }
     weak var delegate: UserStoreDelegate?
 
-    func login(_ loginUser: User, completion:@escaping (_ succes:Bool, _ error: String?) -> Void) {
+    func login(_ loginUser: User, completion:@escaping
+        (_ success:Bool, _ error: String?) -> ()) {
 
-        //Call web service to login
+        // Call web service to login
         WebServices.shared.authUser(loginUser) { (user, error) in
             if let user = user {
                 WebServices.shared.setAuthToken(user.token, expiration: user.expiration)
@@ -38,8 +42,10 @@ class UserStore {
         }
     }
 
-    func register(_ registerUser: User, completion:@escaping (_ success:Bool, _ error: String?) -> ()) {
+    func register(_ registerUser: User, completion:@escaping
+        (_ success:Bool, _ error: String?) -> ()) {
 
+        // Call web service to login
         WebServices.shared.authUser(registerUser) { (user, error) in
             if let user = user {
                 WebServices.shared.setAuthToken(user.token, expiration: user.expiration)
@@ -50,8 +56,9 @@ class UserStore {
         }
     }
 
-    func logout(_ completion:() -> Void) {
+    func logout(_ completion:() -> ()) {
         WebServices.shared.clearUserAuthToken()
         completion()
     }
+
 }

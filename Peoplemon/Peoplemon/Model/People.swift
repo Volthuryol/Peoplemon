@@ -90,7 +90,7 @@ class People: NetworkModel {
         self.radius = radius
         requestType = .catchPerson
     }
-    init(userId: String, userName: String, created: String, avatarBase64: String) {
+    init(userId: String, avatarBase64: String, created: String, userName: String) {
         self.userId = userId
         self.userName = userName
         self.created = created

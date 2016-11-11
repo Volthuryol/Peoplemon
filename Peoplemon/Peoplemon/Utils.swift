@@ -5,12 +5,12 @@
 //  Created by Caden Cheek on 11/7/16.
 //  Copyright © 2016 Interapt. All rights reserved.
 //
-
 import Foundation
 import AFDateHelper
 
-// Step 9: Create file and showError/isValidEmail functions
+// Step 9: Create file and showError/isValidEmail functions//garbage dumping ground
 class Utils {
+
     class func createAlert(_ title: String = "Error", message: String, dismissButtonTitle: String = "Dismiss") -> UIAlertController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: dismissButtonTitle, style: .default, handler: nil))
@@ -37,5 +37,33 @@ class Utils {
 
     class func formatNumber(_ amount: Double, prefix: String) -> String {
         return String(format: "\(prefix)$%.2f", abs(amount))
+    }
+    //converts picture to string
+    class func imageToString(image: UIImage?) -> String?{
+
+        if let image = image{
+            let pictureData = UIImagePNGRepresentation(image)
+            let pictureToString64 = pictureData?.base64EncodedString()
+            return pictureToString64
+        }else{
+            return nil
+        }
+    }
+    class func stringToImage(str: String?) -> UIImage?{
+
+        if let str = str{
+
+            let imageData = NSData(base64Encoded: str, options: NSData.Base64DecodingOptions.ignoreUnknownCharacters)
+            if imageData == nil{
+                return nil
+            }
+            if let image = UIImage(data: imageData as! Data){
+                return image
+            }
+            return nil
+
+        }else{
+            return nil
+        }
     }
 }
